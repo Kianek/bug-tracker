@@ -1,9 +1,9 @@
 const Bug = require('./Bug');
-const { isEmpty } = require('validator');
+const isEmpty = require('../../util/is-empty');
 
 module.exports = {
   bugFactory: (title, description) => {
-    if (isEmpty(title) || isEmpty(description)) {
+    if (typeof title !== 'string' || typeof description !== 'string') {
       return null;
     }
 
