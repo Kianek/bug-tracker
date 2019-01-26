@@ -1,3 +1,4 @@
+const Bug = require('../../server/bugs/Bug');
 const bugController = require('../../server/bugs/BugController');
 const { expect, should } = require('../chai-config');
 
