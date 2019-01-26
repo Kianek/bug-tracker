@@ -1,5 +1,5 @@
 const bugController = require('../../server/bugs/BugController');
-const { should } = require('../chai-config');
+const { expect, should } = require('../chai-config');
 
 describe('BugController', function() {
   const validBug = bugController.bugFactory(
@@ -9,9 +9,15 @@ describe('BugController', function() {
 
   describe('#bugFactory', function() {
     it('returns a valid Bug', function() {
-      validBug.should.not.equal(null);
+      validBug.should.not.be.null;
     });
 
-    it('returns null');
+    it('returns null', function() {
+      const invalidBug = bugController.bugFactory(
+        4,
+        'This bug should have a string as its title'
+      );
+      expect(invalidBug).to.be.null;
+    });
   });
 });
