@@ -20,7 +20,6 @@ function BugController() {
 
     try {
       const result = await newBug.save();
-      console.log(result);
       return res.status(201).json(result);
     } catch (err) {
       return res.status(400).json({ error: 'Unable to add bug' });
