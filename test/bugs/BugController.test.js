@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const request = require('supertest');
 const Bug = require('../../server/bugs/Bug');
 const bugController = require('../../server/bugs/BugController');
 const { expect, should } = require('../chai-config');
@@ -34,4 +35,6 @@ describe('BugController', function() {
       }
     });
   });
+
+  describe('#updateBug', function() {});
 });
