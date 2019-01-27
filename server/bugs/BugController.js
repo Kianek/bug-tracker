@@ -20,6 +20,14 @@ function BugController() {
     return new Bug({ title, description });
   };
 
+  /**
+   * Attempts to instantiate a new Bug model. If successful, returns a success response
+   * with the newly saved bug; otherwise, returns a 400 error.
+   * @async
+   * @method
+   * @param request
+   * @param response
+   */
   this.addBug = async (req, res) => {
     const { title, description } = req.body;
     const newBug = this.bugFactory(title, description);
