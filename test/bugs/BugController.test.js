@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Bug = require('../../server/bugs/Bug');
 const bugController = require('../../server/bugs/BugController');
 const { expect, should } = require('../chai-config');
@@ -19,6 +20,18 @@ describe('BugController', function() {
         'This bug should have a string as its title'
       );
       expect(invalidBug).to.be.null;
+    });
+  });
+
+  describe('#addBug', function() {
+    it('should add a new bug', async function() {
+      try {
+        const newBug = await validBug.save();
+        const result = validBug.equals(newBug);
+        result.should.be.true;
+      } catch (err) {
+        console.log(err);
+      }
     });
   });
 });
