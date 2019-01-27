@@ -1,7 +1,17 @@
+const Model = require('mongoose').Model;
 const Bug = require('./Bug');
 const isEmpty = require('../../util/is-empty');
 
+/**
+ * @constructor
+ */
 function BugController() {
+  /**
+   *
+   * @param {string} title - title of the new bug
+   * @param {string} description - describes the problem
+   * @returns {Model} new Bug model
+   */
   this.bugFactory = (title, description) => {
     if (typeof title !== 'string' || typeof description !== 'string') {
       return null;
