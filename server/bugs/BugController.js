@@ -44,7 +44,7 @@ function BugController() {
     }
   };
 
-  this.editBug = async () => {};
+  this.updateBug = async () => {};
   this.deleteBug = async () => {};
   this.findBug = async () => {};
   this.findAllBugs = async () => {};
