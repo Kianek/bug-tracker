@@ -10,7 +10,7 @@ describe('BugController', function() {
     'The program segfaults when I eat apples'
   );
 
-  describe('#bugFactory', function() {
+  context('#bugFactory', function() {
     it('returns a valid Bug', function() {
       validBug.should.not.be.null;
     });
@@ -24,7 +24,7 @@ describe('BugController', function() {
     });
   });
 
-  describe('#addBug', function() {
+  context('#addBug', function() {
     it('should add a new bug', async function() {
       try {
         const newBug = await validBug.save();
@@ -36,5 +36,39 @@ describe('BugController', function() {
     });
   });
 
-  describe('#updateBug', function() {});
+  context('#updateBug', async function() {
+    const newBug = bugController.bugFactory('Title', 'Description');
+    const id = newBug._id;
+    const updatedValues = [
+      { title: 'New Title' },
+      { description: 'New Description' },
+      { fixed: true },
+    ];
+
+    beforeEach(async function() {
+      try {
+        await newBug.save();
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    updatedValues.forEach(updatedValue => {
+      const key = Object.keys(updatedValue)[0];
+      const value = Object.values(updatedValue)[0];
+
+      it(`should update the ${key} value to ${value}`, async function() {
+        try {
+          await newBug.save();
+          const query = { [key]: value };
+          const opts = { new: true };
+          const result = await Bug.findByIdAndUpdate(id, query, opts);
+          console.log(result);
+          result[key].should.equal(value);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    });
+  });
 });
