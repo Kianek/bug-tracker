@@ -72,4 +72,6 @@ describe('BugController', function() {
       });
     });
   });
+
+  context('#deleteBug', function() {});
 });
