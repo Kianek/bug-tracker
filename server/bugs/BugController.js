@@ -44,6 +44,12 @@ function BugController() {
     }
   };
 
+  /**
+   * Sanitizes the request body, filtering out any invalid values.
+   * Then, the remaining values are used to update the database.
+   * @param request
+   * @param response
+   */
   this.updateBug = async (req, res) => {
     const id = req.params.id;
 
