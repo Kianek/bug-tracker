@@ -44,7 +44,32 @@ function BugController() {
     }
   };
 
-  this.updateBug = async () => {};
+  this.updateBug = async (req, res) => {
+    const id = req.params.id;
+
+    // Convert the request body to an array of key-value arrays,
+    // and filter out any key-value array with an 'empty' value.
+    // Then, convert the resulting array of sanitized objects
+    // back into an object.
+    const updatedValues = Object.assign(
+      {},
+      ...Object.entries(req.body)
+        .filter(pair => !isEmpty(pair[1]))
+        .map(pair => {
+          return { [pair[0]]: pair[1] };
+        })
+    );
+
+    try {
+      // Specify that Mongo should respond with the updated document
+      const opts = { new: true };
+      const result = await Bug.findByIdAndUpdate(id, updatedValues, opts);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(400).json({ msg: 'Unable to find bug' });
+    }
+  };
+
   this.deleteBug = async () => {};
   this.findBug = async () => {};
   this.findAllBugs = async () => {};
