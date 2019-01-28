@@ -73,5 +73,34 @@ describe('BugController', function() {
     });
   });
 
-  context('#deleteBug', function() {});
+  context('#deleteBug', function() {
+    let id = '';
+
+    before('Add a bug to the database', async function() {
+      try {
+        const result = await validBug.save();
+        id = result._id;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    it('should find the bug by id, and delete it', async function() {
+      try {
+        await Bug.findByIdAndDelete(id);
+        return expect(Bug.findById(id)).to.eventually.be.null;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    it('should be unable to find the deleted bug', async function() {
+      try {
+        const result = await Bug.findByIdAndDelete(id);
+        return expect(result).to.be.null;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
 });
