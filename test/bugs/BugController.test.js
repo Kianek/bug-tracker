@@ -39,11 +39,6 @@ describe('BugController', function() {
   context('#updateBug', async function() {
     const newBug = bugController.bugFactory('Title', 'Description');
     const id = newBug._id;
-    const updatedValues = [
-      { title: 'New Title' },
-      { description: 'New Description' },
-      { fixed: true },
-    ];
 
     beforeEach(async function() {
       try {
@@ -52,6 +47,12 @@ describe('BugController', function() {
         console.log(err);
       }
     });
+
+    const updatedValues = [
+      { title: 'New Title' },
+      { description: 'New Description' },
+      { fixed: true },
+    ];
 
     updatedValues.forEach(updatedValue => {
       const key = Object.keys(updatedValue)[0];
