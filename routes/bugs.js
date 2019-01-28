@@ -9,4 +9,6 @@ router.post('/add', bugController.addBug);
 
 router.put('/:id/update', bugController.updateBug);
 
+router.delete('/:id/delete', bugController.deleteBug);
+
 module.exports = router;
