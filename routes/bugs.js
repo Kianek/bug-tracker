@@ -7,4 +7,6 @@ router.get('/test', (req, res) => {
 
 router.post('/add', bugController.addBug);
 
+router.put('/:id/update', bugController.updateBug);
+
 module.exports = router;
