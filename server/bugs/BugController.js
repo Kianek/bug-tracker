@@ -76,7 +76,17 @@ function BugController() {
     }
   };
 
-  this.deleteBug = async () => {};
+  this.deleteBug = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const result = await Bug.findByIdAndDelete(id);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(409).json({ msg: 'Unable to find and/or delete bug' });
+    }
+  };
+
   this.findBug = async () => {};
   this.findAllBugs = async () => {};
 }
