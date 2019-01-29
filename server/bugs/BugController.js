@@ -87,6 +87,8 @@ function BugController() {
     }
   };
 
+  this.deleteAllBugs = async (req, res) => {};
+
   this.findBug = async (req, res) => {
     const id = req.params.id;
 
