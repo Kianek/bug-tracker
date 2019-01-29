@@ -98,7 +98,14 @@ function BugController() {
     }
   };
 
-  this.findAllBugs = async () => {};
+  this.findAllBugs = async (req, res) => {
+    try {
+      const result = await Bug.find({});
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(400).json({ msg: 'Unable to find bugs' });
+    }
+  };
 }
 
 module.exports = new BugController();
