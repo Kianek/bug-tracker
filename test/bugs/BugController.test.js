@@ -80,7 +80,6 @@ describe('BugController', function() {
           `Bug ${i + 1}`,
           `This is bug ${i + 1}`
         );
-        console.log(bugs[i]);
 
         try {
           await bugs[i].save();
