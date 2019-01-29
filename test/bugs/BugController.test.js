@@ -3,6 +3,23 @@ const Bug = require('../../server/bugs/Bug');
 const bugController = require('../../server/bugs/BugController');
 const { expect, should } = require('../chai-config');
 
+async function populateDB(endRange) {
+  if (endRange <= 0) {
+    return null;
+  }
+  let bugs = [];
+  for (let i = 0; i < endRange; ++i) {
+    bugs[i] = bugController.bugFactory(`Bug ${i + 1}`, `This is bug ${i + 1}`);
+
+    try {
+      await bugs[i].save();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return bugs.length;
+}
+
 async function clearDB() {
   try {
     await mongoose.connection.dropCollection('bugs');
@@ -73,27 +90,17 @@ describe('BugController', function() {
   });
 
   context.only('#findAllBugs', function() {
-    before('Add three bugs to the database', async function() {
-      let bugs = [];
-      for (let i = 0; i < 3; ++i) {
-        bugs[i] = bugController.bugFactory(
-          `Bug ${i + 1}`,
-          `This is bug ${i + 1}`
-        );
+    let bugCount = 0;
 
-        try {
-          await bugs[i].save();
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    before('Add three bugs to the database', async function() {
+      bugCount = await populateDB(4);
     });
 
     it('should load all bugs from the database', async function() {
       try {
         const result = await Bug.find({});
         console.log(result);
-        result.should.be.an('array').with.lengthOf(3);
+        result.length.should.equal(bugCount);
       } catch (err) {
         console.log(err);
       }
