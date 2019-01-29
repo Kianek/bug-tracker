@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
-const request = require('supertest');
 const Bug = require('../../server/bugs/Bug');
 const bugController = require('../../server/bugs/BugController');
 const { expect, should } = require('../chai-config');
+
+async function clearDB() {
+  try {
+    await mongoose.connection.dropCollection('bugs');
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 describe('BugController', function() {
   const validBug = bugController.bugFactory(
@@ -36,11 +43,7 @@ describe('BugController', function() {
     });
 
     after('clear the database', async function() {
-      try {
-        await mongoose.connection.dropCollection('bugs');
-      } catch (err) {
-        console.log(err);
-      }
+      clearDB();
     });
   });
 
@@ -65,15 +68,11 @@ describe('BugController', function() {
     });
 
     after('clear the database', async function() {
-      try {
-        await mongoose.connection.dropCollection('bugs');
-      } catch (err) {
-        console.log(err);
-      }
+      clearDB();
     });
   });
 
-  context('#findAllBugs', function() {
+  context.only('#findAllBugs', function() {
     before('Add three bugs to the database', async function() {
       let bugs = [];
       for (let i = 0; i < 3; ++i) {
@@ -102,11 +101,7 @@ describe('BugController', function() {
     });
 
     after('Clear the database', async function() {
-      try {
-        await mongoose.connection.dropCollection('bugs');
-      } catch (err) {
-        console.log(err);
-      }
+      clearDB();
     });
   });
 
