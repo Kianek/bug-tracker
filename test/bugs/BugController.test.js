@@ -36,6 +36,27 @@ describe('BugController', function() {
     });
   });
 
+  context('#findBug', function() {
+    const id = validBug._id;
+
+    before('Add bug to the database', async function() {
+      try {
+        await validBug.save();
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    it('should find the bug by id', async function() {
+      try {
+        const result = await Bug.findById(id);
+        expect(result.isNew).to.be.false;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
+
   context('#updateBug', async function() {
     const newBug = bugController.bugFactory('Title', 'Description');
     const id = newBug._id;
