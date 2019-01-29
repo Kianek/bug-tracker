@@ -34,14 +34,22 @@ describe('BugController', function() {
         console.log(err);
       }
     });
+
+    after('clear the database', async function() {
+      try {
+        await mongoose.connection.dropCollection('bugs');
+      } catch (err) {
+        console.log(err);
+      }
+    });
   });
 
   context('#findBug', function() {
-    const id = validBug._id;
+    const newBug = bugController.bugFactory('New Bug', 'New description');
 
     before('Add bug to the database', async function() {
       try {
-        await validBug.save();
+        await newBug.save();
       } catch (err) {
         console.log(err);
       }
@@ -49,8 +57,53 @@ describe('BugController', function() {
 
     it('should find the bug by id', async function() {
       try {
-        const result = await Bug.findById(id);
+        const result = await Bug.findById(newBug._id);
         expect(result.isNew).to.be.false;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    after('clear the database', async function() {
+      try {
+        await mongoose.connection.dropCollection('bugs');
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
+
+  context('#findAllBugs', function() {
+    before('Add three bugs to the database', async function() {
+      let bugs = [];
+      for (let i = 0; i < 3; ++i) {
+        bugs[i] = bugController.bugFactory(
+          `Bug ${i + 1}`,
+          `This is bug ${i + 1}`
+        );
+        console.log(bugs[i]);
+
+        try {
+          await bugs[i].save();
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+
+    it('should load all bugs from the database', async function() {
+      try {
+        const result = await Bug.find({});
+        console.log(result);
+        result.should.be.an('array').with.lengthOf(3);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    after('Clear the database', async function() {
+      try {
+        await mongoose.connection.dropCollection('bugs');
       } catch (err) {
         console.log(err);
       }
