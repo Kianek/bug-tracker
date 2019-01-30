@@ -25,8 +25,8 @@ function BugController() {
    * with the newly saved bug; otherwise, returns a 400 error.
    * @async
    * @method
-   * @param request
-   * @param response
+   * @param {Object} request
+   * @param {Object} response
    */
   this.addBug = async (req, res) => {
     const { title, description } = req.body;
@@ -46,9 +46,9 @@ function BugController() {
 
   /**
    * Sanitizes the request body, filtering out any invalid values.
-   * Then, the remaining values are used to update the database.
-   * @param request
-   * @param response
+   * The remaining values are used to update the database.
+   * @param {Object} request
+   * @param {Object} response
    */
   this.updateBug = async (req, res) => {
     const id = req.params.id;
@@ -76,6 +76,12 @@ function BugController() {
     }
   };
 
+  /**
+   * Finds a given bug and deletes it. If no bug is found, or is unable to be deleted,
+   * returns a 409 status.
+   * @param {Object} request
+   * @param {Object} response
+   */
   this.deleteBug = async (req, res) => {
     const id = req.params.id;
 
@@ -87,6 +93,11 @@ function BugController() {
     }
   };
 
+  /**
+   * Deletes all bugs in the database.
+   * @param {Object} request
+   * @param {Object} response
+   */
   this.deleteAllBugs = async (req, res) => {
     try {
       await Bug.deleteMany({});
@@ -96,6 +107,11 @@ function BugController() {
     }
   };
 
+  /**
+   * Finds a single bug by id.
+   * @param {Object} request
+   * @param {Object} response
+   */
   this.findBug = async (req, res) => {
     const id = req.params.id;
 
@@ -107,6 +123,11 @@ function BugController() {
     }
   };
 
+  /**
+   * Finds all bugs in the database.
+   * @param {Object} request
+   * @param {Object} response
+   */
   this.findAllBugs = async (req, res) => {
     try {
       const result = await Bug.find({});
