@@ -89,7 +89,7 @@ describe('BugController', function() {
     });
   });
 
-  context.only('#findAllBugs', function() {
+  context('#findAllBugs', function() {
     let bugCount = 0;
 
     before('Add three bugs to the database', async function() {
