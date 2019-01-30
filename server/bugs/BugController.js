@@ -87,7 +87,14 @@ function BugController() {
     }
   };
 
-  this.deleteAllBugs = async (req, res) => {};
+  this.deleteAllBugs = async (req, res) => {
+    try {
+      await Bug.deleteMany({});
+      return res.status(200).json({ msg: 'All bugs deleted' });
+    } catch (err) {
+      return res.status(400).json({ msg: 'Unable to delete bugs' });
+    }
+  };
 
   this.findBug = async (req, res) => {
     const id = req.params.id;
